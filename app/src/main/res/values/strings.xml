@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">BYD Greeting</string>
+    <string name="widget_name">BYD Greeting Widget</string>
+    <string name="widget_description">Nút chào khi khởi động và kết thúc hành trình</string>
+</resources>

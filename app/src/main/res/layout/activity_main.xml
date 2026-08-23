@@ -175,7 +175,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="1. Chọn file audio (MP3, OGG, WAV...) cho Khởi động và Kết thúc.\n\n2. Nhấn giữ màn hình chính → Widget → tìm \"BYD Greeting Widget\" → kéo ra màn hình.\n\n3. Trên widget bấm nút 🟢 Bắt đầu hoặc 🔴 Kết thúc để phát audio tương ứng.\n\n4. Bấm vào tiêu đề widget để mở lại màn hình cài đặt này."
+            android:text="1. Chọn file audio (MP3, OGG, WAV...) cho Khởi động và Kết thúc.\n\n2. Nhấn giữ màn hình chính → Widget → tìm &quot;BYD Greeting Widget&quot; → kéo ra màn hình.\n\n3. Trên widget bấm nút 🟢 Bắt đầu hoặc 🔴 Kết thúc để phát audio tương ứng.\n\n4. Bấm vào tiêu đề widget để mở lại màn hình cài đặt này."
             android:textSize="13sp"
             android:lineSpacingExtra="4dp"
             android:textColor="#444444" />

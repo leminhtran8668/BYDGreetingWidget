@@ -10,6 +10,7 @@ object Prefs {
     private const val KEY_END_URI = "end_audio_uri"
     private const val KEY_START_NAME = "start_audio_name"
     private const val KEY_END_NAME = "end_audio_name"
+    private const val KEY_SHOW_POPUP = "show_popup_on_open"
 
     private fun prefs(context: Context): SharedPreferences {
         return context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
@@ -34,7 +35,6 @@ object Prefs {
     }
 
     fun setStartAudio(context: Context, uri: Uri, name: String) {
-        // Persist permission
         try {
             context.contentResolver.takePersistableUriPermission(
                 uri,
@@ -75,6 +75,17 @@ object Prefs {
         prefs(context).edit()
             .remove(KEY_END_URI)
             .remove(KEY_END_NAME)
+            .apply()
+    }
+
+    /** Mặc định bật popup khi mở app */
+    fun isShowPopup(context: Context): Boolean {
+        return prefs(context).getBoolean(KEY_SHOW_POPUP, true)
+    }
+
+    fun setShowPopup(context: Context, enabled: Boolean) {
+        prefs(context).edit()
+            .putBoolean(KEY_SHOW_POPUP, enabled)
             .apply()
     }
 }

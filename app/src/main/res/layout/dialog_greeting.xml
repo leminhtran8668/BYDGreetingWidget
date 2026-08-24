@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="24dp"
+    android:background="@drawable/dialog_background">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="BYD Greeting"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="#222222"
+        android:gravity="center"
+        android:layout_marginBottom="6dp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Chọn hành động"
+        android:textSize="14sp"
+        android:textColor="#666666"
+        android:gravity="center"
+        android:layout_marginBottom="20dp" />
+
+    <Button
+        android:id="@+id/dialog_btn_start"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:text="🟢  Bắt đầu"
+        android:textSize="18sp"
+        android:textColor="#FFFFFF"
+        android:background="@drawable/btn_start"
+        android:layout_marginBottom="12dp" />
+
+    <Button
+        android:id="@+id/dialog_btn_end"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:text="🔴  Kết thúc"
+        android:textSize="18sp"
+        android:textColor="#FFFFFF"
+        android:background="@drawable/btn_end"
+        android:layout_marginBottom="16dp" />
+
+    <Button
+        android:id="@+id/dialog_btn_close"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:text="Đóng"
+        android:textSize="15sp"
+        android:textColor="#555555"
+        android:background="@drawable/btn_close" />
+
+</LinearLayout>

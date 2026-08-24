@@ -23,13 +23,12 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Chọn file audio &amp; cài đặt popup"
-            android:textSize="14sp"
+            android:text="Panel nổi nhỏ · kéo được · trên mọi app"
+            android:textSize="13sp"
             android:gravity="center"
-            android:layout_marginBottom="20dp"
+            android:layout_marginBottom="16dp"
             android:textColor="#666666" />
 
-        <!-- POPUP SETTING -->
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -46,42 +45,57 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="⚙️ Cài đặt Popup"
+                    android:text="📌 Panel nổi"
                     android:textSize="16sp"
                     android:textStyle="bold"
+                    android:layout_marginBottom="8dp" />
+
+                <TextView
+                    android:id="@+id/tv_float_status"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Trạng thái: Đã tắt"
+                    android:textSize="13sp"
+                    android:textColor="#555555"
+                    android:layout_marginBottom="12dp" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_toggle_float"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Bật panel nổi"
                     android:layout_marginBottom="12dp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:gravity="center_vertical"
-                    android:layout_marginBottom="12dp">
+                    android:gravity="center_vertical">
 
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Tự hiện popup khi mở app"
+                        android:text="Tự mở panel khi boot xe"
                         android:textSize="15sp" />
 
                     <com.google.android.material.switchmaterial.SwitchMaterial
-                        android:id="@+id/switch_show_popup"
+                        android:id="@+id/switch_auto_start"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:checked="true" />
                 </LinearLayout>
 
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btn_show_popup"
+                <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Hiện popup ngay"
-                    style="@style/Widget.MaterialComponents.Button.OutlinedButton" />
+                    android:text="Lần đầu cần cấp quyền &quot;Hiển thị trên các ứng dụng khác&quot;. Panel rất nhỏ, kéo ⋮⋮ để di chuyển, nổi trên bản đồ / launcher."
+                    android:textSize="12sp"
+                    android:textColor="#888888"
+                    android:layout_marginTop="10dp" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
-        <!-- START SECTION -->
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -148,11 +162,10 @@
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
-        <!-- END SECTION -->
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="24dp"
+            android:layout_marginBottom="20dp"
             app:cardElevation="4dp"
             app:cardCornerRadius="12dp">
 
@@ -215,24 +228,14 @@
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
-        <!-- Instructions -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="📌 Hướng dẫn sử dụng"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:layout_marginBottom="8dp" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="1. Chọn file audio (MP3, OGG, WAV...) cho Khởi động và Kết thúc.\n\n2. Bật công tắc &quot;Tự hiện popup khi mở app&quot;.\n\n3. Mỗi lần mở app sẽ hiện popup với 2 nút 🟢 Bắt đầu / 🔴 Kết thúc.\n\n4. Có thể bấm &quot;Hiện popup ngay&quot; để test.\n\n5. Launcher BYD thường không cho thêm widget bên thứ 3 nên dùng popup thay thế."
+            android:text="📌 Hướng dẫn\n1. Chọn 2 file audio.\n2. Bấm &quot;Bật panel nổi&quot; → cấp quyền hiển thị trên app khác.\n3. Panel nhỏ xuất hiện, kéo ⋮⋮ để đặt góc màn hình.\n4. Bật &quot;Tự mở khi boot&quot; + whitelist app trong quản lý tự khởi động DiLink.\n5. Panel nổi trên bản đồ / launcher."
             android:textSize="13sp"
-            android:lineSpacingExtra="4dp"
+            android:lineSpacingExtra="3dp"
             android:textColor="#444444" />
 
-        <!-- Author -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -241,7 +244,7 @@
             android:textStyle="italic"
             android:gravity="center"
             android:textColor="#888888"
-            android:layout_marginTop="28dp"
+            android:layout_marginTop="24dp"
             android:layout_marginBottom="8dp" />
 
     </LinearLayout>

@@ -1,13 +1,12 @@
 package com.byd.greeting
 
 import android.app.Activity
-import android.app.Dialog
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.provider.OpenableColumns
-import android.view.Window
-import android.widget.Button
+import android.provider.Settings
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
@@ -17,7 +16,6 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private var pickingForStart = true
-    private var popupDialog: Dialog? = null
 
     private val pickAudioLauncher = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
@@ -39,110 +37,106 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private val overlayPermissionLauncher = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) {
+        if (canDrawOverlay()) {
+            Toast.makeText(this, "Đã cấp quyền hiển thị trên app khác", Toast.LENGTH_SHORT).show()
+            FloatingService.start(this)
+            updateFloatButton()
+        } else {
+            Toast.makeText(this, "Chưa có quyền overlay — panel nổi không chạy được", Toast.LENGTH_LONG).show()
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Load current selections
         binding.tvStartFile.text = Prefs.getStartName(this)
         binding.tvEndFile.text = Prefs.getEndName(this)
-        binding.switchShowPopup.isChecked = Prefs.isShowPopup(this)
+        binding.switchAutoStart.isChecked = Prefs.isAutoStartFloat(this)
+        updateFloatButton()
 
-        // Toggle popup
-        binding.switchShowPopup.setOnCheckedChangeListener { _, isChecked ->
-            Prefs.setShowPopup(this, isChecked)
+        binding.switchAutoStart.setOnCheckedChangeListener { _, isChecked ->
+            Prefs.setAutoStartFloat(this, isChecked)
             Toast.makeText(
                 this,
-                if (isChecked) "Đã bật popup khi mở app" else "Đã tắt popup khi mở app",
+                if (isChecked) "Sẽ tự mở panel khi boot xe" else "Không tự mở khi boot",
                 Toast.LENGTH_SHORT
             ).show()
         }
 
-        // Pick Start audio
+        binding.btnToggleFloat.setOnClickListener {
+            if (Prefs.isFloatRunning(this)) {
+                FloatingService.stop(this)
+                Prefs.setFloatRunning(this, false)
+                updateFloatButton()
+                Toast.makeText(this, "Đã tắt panel nổi", Toast.LENGTH_SHORT).show()
+            } else {
+                requestOverlayAndStart()
+            }
+        }
+
         binding.btnPickStart.setOnClickListener {
             pickingForStart = true
             openAudioPicker()
         }
-
-        // Pick End audio
         binding.btnPickEnd.setOnClickListener {
             pickingForStart = false
             openAudioPicker()
         }
-
-        // Clear buttons
         binding.btnClearStart.setOnClickListener {
             Prefs.clearStart(this)
             binding.tvStartFile.text = "Chưa chọn"
-            Toast.makeText(this, "Đã xóa audio Khởi động", Toast.LENGTH_SHORT).show()
         }
-
         binding.btnClearEnd.setOnClickListener {
             Prefs.clearEnd(this)
             binding.tvEndFile.text = "Chưa chọn"
-            Toast.makeText(this, "Đã xóa audio Kết thúc", Toast.LENGTH_SHORT).show()
         }
-
-        // Test play buttons
         binding.btnTestStart.setOnClickListener {
             AudioPlayer.play(this, Prefs.getStartUri(this), "Khởi động")
         }
-
         binding.btnTestEnd.setOnClickListener {
             AudioPlayer.play(this, Prefs.getEndUri(this), "Kết thúc")
         }
+    }
 
-        // Manual show popup
-        binding.btnShowPopup.setOnClickListener {
-            showGreetingPopup()
-        }
+    override fun onResume() {
+        super.onResume()
+        updateFloatButton()
+    }
 
-        // Auto show popup if enabled
-        if (Prefs.isShowPopup(this)) {
-            binding.root.post {
-                showGreetingPopup()
-            }
+    private fun updateFloatButton() {
+        val running = Prefs.isFloatRunning(this)
+        binding.btnToggleFloat.text = if (running) "Tắt panel nổi" else "Bật panel nổi"
+        binding.tvFloatStatus.text = if (running) {
+            "Trạng thái: ĐANG BẬT (kéo ⋮⋮ để di chuyển)"
+        } else {
+            "Trạng thái: Đã tắt"
         }
     }
 
-    private fun showGreetingPopup() {
-        if (popupDialog?.isShowing == true) return
+    private fun canDrawOverlay(): Boolean {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            Settings.canDrawOverlays(this)
+        } else true
+    }
 
-        val dialog = Dialog(this)
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialog.setContentView(R.layout.dialog_greeting)
-        dialog.setCancelable(true)
-        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
-
-        val btnStart = dialog.findViewById<Button>(R.id.dialog_btn_start)
-        val btnEnd = dialog.findViewById<Button>(R.id.dialog_btn_end)
-        val btnClose = dialog.findViewById<Button>(R.id.dialog_btn_close)
-
-        btnStart.setOnClickListener {
-            AudioPlayer.play(this, Prefs.getStartUri(this), "Khởi động")
+    private fun requestOverlayAndStart() {
+        if (canDrawOverlay()) {
+            FloatingService.start(this)
+            updateFloatButton()
+            Toast.makeText(this, "Đã bật panel nổi — kéo ⋮⋮ để di chuyển", Toast.LENGTH_SHORT).show()
+        } else {
+            Toast.makeText(this, "Cần cấp quyền \"Hiển thị trên app khác\"", Toast.LENGTH_LONG).show()
+            val intent = Intent(
+                Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
+                Uri.parse("package:$packageName")
+            )
+            overlayPermissionLauncher.launch(intent)
         }
-
-        btnEnd.setOnClickListener {
-            AudioPlayer.play(this, Prefs.getEndUri(this), "Kết thúc")
-        }
-
-        btnClose.setOnClickListener {
-            dialog.dismiss()
-        }
-
-        dialog.setOnDismissListener {
-            popupDialog = null
-        }
-
-        popupDialog = dialog
-        dialog.show()
-
-        // Make dialog wider on car screens
-        dialog.window?.setLayout(
-            (resources.displayMetrics.widthPixels * 0.85).toInt(),
-            android.view.ViewGroup.LayoutParams.WRAP_CONTENT
-        )
     }
 
     private fun openAudioPicker() {
@@ -164,10 +158,5 @@ class MainActivity : AppCompatActivity() {
             }
         }
         return name
-    }
-
-    override fun onDestroy() {
-        popupDialog?.dismiss()
-        super.onDestroy()
     }
 }

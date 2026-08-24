@@ -10,7 +10,10 @@ object Prefs {
     private const val KEY_END_URI = "end_audio_uri"
     private const val KEY_START_NAME = "start_audio_name"
     private const val KEY_END_NAME = "end_audio_name"
-    private const val KEY_SHOW_POPUP = "show_popup_on_open"
+    private const val KEY_AUTO_START_FLOAT = "auto_start_float"
+    private const val KEY_FLOAT_X = "float_x"
+    private const val KEY_FLOAT_Y = "float_y"
+    private const val KEY_FLOAT_RUNNING = "float_running"
 
     private fun prefs(context: Context): SharedPreferences {
         return context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
@@ -78,14 +81,29 @@ object Prefs {
             .apply()
     }
 
-    /** Mặc định bật popup khi mở app */
-    fun isShowPopup(context: Context): Boolean {
-        return prefs(context).getBoolean(KEY_SHOW_POPUP, true)
+    fun isAutoStartFloat(context: Context): Boolean {
+        return prefs(context).getBoolean(KEY_AUTO_START_FLOAT, true)
     }
 
-    fun setShowPopup(context: Context, enabled: Boolean) {
+    fun setAutoStartFloat(context: Context, enabled: Boolean) {
+        prefs(context).edit().putBoolean(KEY_AUTO_START_FLOAT, enabled).apply()
+    }
+
+    fun getFloatX(context: Context): Int = prefs(context).getInt(KEY_FLOAT_X, 40)
+    fun getFloatY(context: Context): Int = prefs(context).getInt(KEY_FLOAT_Y, 200)
+
+    fun setFloatPosition(context: Context, x: Int, y: Int) {
         prefs(context).edit()
-            .putBoolean(KEY_SHOW_POPUP, enabled)
+            .putInt(KEY_FLOAT_X, x)
+            .putInt(KEY_FLOAT_Y, y)
             .apply()
+    }
+
+    fun setFloatRunning(context: Context, running: Boolean) {
+        prefs(context).edit().putBoolean(KEY_FLOAT_RUNNING, running).apply()
+    }
+
+    fun isFloatRunning(context: Context): Boolean {
+        return prefs(context).getBoolean(KEY_FLOAT_RUNNING, false)
     }
 }

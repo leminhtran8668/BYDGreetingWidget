@@ -47,6 +47,14 @@ class FloatingService : Service() {
     override fun onCreate() {
         super.onCreate()
         createNotificationChannel()
+        if (!LicenseManager.isActivated(this)) {
+            // Chưa kích hoạt bản quyền -> không cho hiện panel nổi.
+            // Vẫn phải gọi startForeground() vì service được khởi động bằng
+            // startForegroundService(), nếu không hệ thống sẽ crash app.
+            startForeground(NOTIF_ID, buildNotification())
+            stopSelf()
+            return
+        }
         startForeground(NOTIF_ID, buildNotification())
         showFloatingPanel()
     }

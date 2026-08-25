@@ -1,7 +1,21 @@
+import java.util.Properties
+import java.io.FileInputStream
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
 }
+
+// Đọc khóa bí mật tạo mã kích hoạt từ local.properties (KHÔNG commit lên Git).
+// Thêm dòng sau vào file local.properties trên máy bạn (file này đã có trong .gitignore):
+//   LICENSE_SECRET=chuoi-bi-mat-cua-rieng-ban
+val localProps = Properties().apply {
+    val f = rootProject.file("local.properties")
+    if (f.exists()) load(FileInputStream(f))
+}
+val licenseSecret: String = (localProps.getProperty("LICENSE_SECRET")
+    ?: System.getenv("LICENSE_SECRET")
+    ?: "CHANGE_ME_SET_IN_local.properties")
 
 android {
     namespace = "com.byd.greeting"
@@ -11,8 +25,9 @@ android {
         applicationId = "com.byd.greeting"
         minSdk = 24
         targetSdk = 34
-        versionCode = 4
-        versionName = "1.3"
+        versionCode = 5
+        versionName = "1.4"
+        buildConfigField("String", "LICENSE_SECRET", "\"$licenseSecret\"")
     }
 
     buildTypes {
@@ -33,6 +48,7 @@ android {
     }
     buildFeatures {
         viewBinding = true
+        buildConfig = true
     }
 }
 

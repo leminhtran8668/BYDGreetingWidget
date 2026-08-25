@@ -14,6 +14,7 @@ object Prefs {
     private const val KEY_FLOAT_X = "float_x"
     private const val KEY_FLOAT_Y = "float_y"
     private const val KEY_FLOAT_RUNNING = "float_running"
+    private const val KEY_LICENSE_ACTIVATED = "license_activated"
 
     private fun prefs(context: Context): SharedPreferences {
         return context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
@@ -105,5 +106,13 @@ object Prefs {
 
     fun isFloatRunning(context: Context): Boolean {
         return prefs(context).getBoolean(KEY_FLOAT_RUNNING, false)
+    }
+
+    fun isLicenseActivated(context: Context): Boolean {
+        return prefs(context).getBoolean(KEY_LICENSE_ACTIVATED, false)
+    }
+
+    fun setLicenseActivated(context: Context, activated: Boolean) {
+        prefs(context).edit().putBoolean(KEY_LICENSE_ACTIVATED, activated).apply()
     }
 }

@@ -15,6 +15,7 @@ class BootReceiver : BroadcastReceiver() {
         ) return
 
         if (!Prefs.isAutoStartFloat(context)) return
+        if (!LicenseManager.isActivated(context)) return
 
         // Need overlay permission
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {

@@ -51,6 +51,15 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        // Chặn phòng hờ: nếu vào thẳng MainActivity (vd từ thông báo) mà chưa
+        // kích hoạt thì đá về màn hình nhập mã kích hoạt.
+        if (!LicenseManager.isActivated(this)) {
+            startActivity(Intent(this, LicenseActivity::class.java))
+            finish()
+            return
+        }
+
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 

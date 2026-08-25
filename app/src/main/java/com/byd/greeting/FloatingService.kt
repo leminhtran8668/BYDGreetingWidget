@@ -15,7 +15,6 @@ import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.WindowManager
-import android.widget.Button
 import androidx.core.app.NotificationCompat
 
 class FloatingService : Service() {
@@ -87,10 +86,8 @@ class FloatingService : Service() {
             y = Prefs.getFloatY(this@FloatingService)
         }
 
-        val btnStart = floatingView!!.findViewById<Button>(R.id.float_btn_start)
-        val btnEnd = floatingView!!.findViewById<Button>(R.id.float_btn_end)
-        val btnClose = floatingView!!.findViewById<Button>(R.id.float_btn_close)
-        val root = floatingView!!.findViewById<View>(R.id.floating_root)
+        val btnStart = floatingView!!.findViewById<View>(R.id.float_btn_start)
+        val btnEnd = floatingView!!.findViewById<View>(R.id.float_btn_end)
         val handle = floatingView!!.findViewById<View>(R.id.drag_handle)
 
         btnStart.setOnClickListener {
@@ -99,9 +96,11 @@ class FloatingService : Service() {
         btnEnd.setOnClickListener {
             AudioPlayer.play(this, Prefs.getEndUri(this), "Kết thúc")
         }
-        btnClose.setOnClickListener {
+        // Giữ nhấn tay cầm để tắt panel (thay cho nút ✕ đã bỏ để panel gọn hơn)
+        handle.setOnLongClickListener {
             Prefs.setFloatRunning(this, false)
             stopSelf()
+            true
         }
 
         // Drag from handle or whole panel

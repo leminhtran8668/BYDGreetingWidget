@@ -5,56 +5,35 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal"
     android:gravity="center_vertical"
-    android:padding="6dp"
+    android:padding="4dp"
     android:background="@drawable/floating_bg">
 
-    <!-- Drag handle -->
+    <!-- Tay cầm để kéo di chuyển, giữ nhấn để tắt panel -->
     <TextView
         android:id="@+id/drag_handle"
-        android:layout_width="20dp"
-        android:layout_height="36dp"
-        android:text="⋮⋮"
+        android:layout_width="14dp"
+        android:layout_height="30dp"
+        android:text="⋮"
         android:textSize="12sp"
-        android:textColor="#888888"
+        android:textColor="#CCCCCC"
         android:gravity="center"
-        android:layout_marginEnd="4dp" />
+        android:layout_marginEnd="3dp" />
 
-    <Button
+    <!-- Chấm xanh: Bắt đầu -->
+    <View
         android:id="@+id/float_btn_start"
-        android:layout_width="72dp"
-        android:layout_height="36dp"
-        android:text="🟢 Bắt đầu"
-        android:textSize="11sp"
-        android:textColor="#FFFFFF"
-        android:background="@drawable/btn_start"
-        android:padding="0dp"
-        android:minWidth="0dp"
-        android:minHeight="0dp"
-        android:layout_marginEnd="4dp" />
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:background="@drawable/btn_start_dot"
+        android:layout_marginEnd="3dp"
+        android:contentDescription="Bắt đầu" />
 
-    <Button
+    <!-- Chấm đỏ: Kết thúc -->
+    <View
         android:id="@+id/float_btn_end"
-        android:layout_width="72dp"
-        android:layout_height="36dp"
-        android:text="🔴 Kết thúc"
-        android:textSize="11sp"
-        android:textColor="#FFFFFF"
-        android:background="@drawable/btn_end"
-        android:padding="0dp"
-        android:minWidth="0dp"
-        android:minHeight="0dp"
-        android:layout_marginEnd="4dp" />
-
-    <Button
-        android:id="@+id/float_btn_close"
-        android:layout_width="28dp"
-        android:layout_height="28dp"
-        android:text="✕"
-        android:textSize="12sp"
-        android:textColor="#666666"
-        android:background="@drawable/btn_close"
-        android:padding="0dp"
-        android:minWidth="0dp"
-        android:minHeight="0dp" />
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:background="@drawable/btn_end_dot"
+        android:contentDescription="Kết thúc" />
 
 </LinearLayout>

@@ -1,21 +1,7 @@
-import java.util.Properties
-import java.io.FileInputStream
-
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
 }
-
-// Đọc khóa bí mật tạo mã kích hoạt từ local.properties (KHÔNG commit lên Git).
-// Thêm dòng sau vào file local.properties trên máy bạn (file này đã có trong .gitignore):
-//   LICENSE_SECRET=chuoi-bi-mat-cua-rieng-ban
-val localProps = Properties().apply {
-    val f = rootProject.file("local.properties")
-    if (f.exists()) load(FileInputStream(f))
-}
-val licenseSecret: String = (localProps.getProperty("LICENSE_SECRET")
-    ?: System.getenv("LICENSE_SECRET")
-    ?: "CHANGE_ME_SET_IN_local.properties")
 
 android {
     namespace = "com.byd.greeting"
@@ -23,11 +9,12 @@ android {
 
     defaultConfig {
         applicationId = "com.byd.greeting"
+        // DiLink thường Android 10 (API 29). min 24 vẫn ok.
         minSdk = 24
-        targetSdk = 34
-        versionCode = 5
-        versionName = "1.4"
-        buildConfigField("String", "LICENSE_SECRET", "\"$licenseSecret\"")
+        // target 30 tránh một số lỗi parse/cài trên head unit cũ
+        targetSdk = 30
+        versionCode = 6
+        versionName = "1.5"
     }
 
     buildTypes {
@@ -37,6 +24,9 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+        }
+        debug {
+            isMinifyEnabled = false
         }
     }
     compileOptions {
@@ -48,7 +38,11 @@ android {
     }
     buildFeatures {
         viewBinding = true
-        buildConfig = true
+    }
+    packaging {
+        jniLibs {
+            useLegacyPackaging = true
+        }
     }
 }
 

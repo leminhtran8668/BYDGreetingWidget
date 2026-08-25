@@ -4,7 +4,6 @@
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
 
@@ -15,10 +14,11 @@
         android:roundIcon="@drawable/ic_launcher_foreground"
         android:supportsRtl="true"
         android:theme="@style/Theme.BYDGreetingWidget"
-        android:requestLegacyExternalStorage="true">
+        android:requestLegacyExternalStorage="true"
+        android:extractNativeLibs="true">
 
         <activity
-            android:name=".LicenseActivity"
+            android:name=".MainActivity"
             android:exported="true"
             android:theme="@style/Theme.BYDGreetingWidget">
             <intent-filter>
@@ -27,19 +27,10 @@
             </intent-filter>
         </activity>
 
-        <activity
-            android:name=".MainActivity"
-            android:exported="false"
-            android:theme="@style/Theme.BYDGreetingWidget" />
-
+        <!-- Không dùng foregroundServiceType=specialUse (Android 14+) để tương thích DiLink Android 10 -->
         <service
             android:name=".FloatingService"
-            android:exported="false"
-            android:foregroundServiceType="specialUse">
-            <property
-                android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE"
-                android:value="floating_control_panel" />
-        </service>
+            android:exported="false" />
 
         <receiver
             android:name=".BootReceiver"
@@ -52,7 +43,6 @@
             </intent-filter>
         </receiver>
 
-        <!-- Giữ widget (có thể không dùng được trên BYD) -->
         <receiver
             android:name=".GreetingWidgetProvider"
             android:exported="true"

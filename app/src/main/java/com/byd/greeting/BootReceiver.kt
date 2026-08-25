@@ -15,14 +15,11 @@ class BootReceiver : BroadcastReceiver() {
         ) return
 
         if (!Prefs.isAutoStartFloat(context)) return
-        if (!LicenseManager.isActivated(context)) return
 
-        // Need overlay permission
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (!Settings.canDrawOverlays(context)) return
         }
 
-        // Small delay so system is ready
         android.os.Handler(android.os.Looper.getMainLooper()).postDelayed({
             FloatingService.start(context)
         }, 8000)

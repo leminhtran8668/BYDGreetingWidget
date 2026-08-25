@@ -20,7 +20,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="Ứng dụng cần mã kích hoạt để sử dụng. Gửi \"Mã thiết bị\" bên dưới cho người bán để nhận \"Mã kích hoạt\"."
+            android:text="Ứng dụng cần mã kích hoạt để sử dụng. Gửi &quot;Mã thiết bị&quot; bên dưới cho người bán để nhận &quot;Mã kích hoạt&quot;."
             android:textSize="14sp" />
 
         <TextView
